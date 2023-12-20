@@ -11,7 +11,7 @@ for line in data:
 print(f"Part 1: {part_one_solution}")
 
 
-# part2 # that one is not my idea, its @hyper-neutrino work
+# part2
 part_two_solution = 0
 
 import re

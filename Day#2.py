@@ -15,7 +15,6 @@ def check_subset(subset):
             return False
     return True
 
-
 for indx, line in enumerate(data):
     line = [[bag.strip().split() for bag in subset.split(',')] for subset in 
             re.split(game_pattern, line)[1].split(';')]
