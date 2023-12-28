@@ -14,7 +14,7 @@ for start, end in sranges:
     ranges.update([*range(start,end)])
 
 
-""" # part2
+# part2
 p2_solution = max(ranges)
 
 for seed in ranges:
@@ -28,4 +28,4 @@ for seed in ranges:
     if seed < p2_solution:
         p2_solution = seed
 
-print(f"Part 2: {p2_solution}") """
+print(f"Part 2: {p2_solution}")
