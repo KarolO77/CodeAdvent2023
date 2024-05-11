@@ -1,31 +1,35 @@
-import re
-with open('CodeAdvent2023\\day5.txt') as file:
-    data = file.read().split('map:')
+with open("CodeAdvent\\CodeAdvent2023\\day5.txt") as file:
+    data = file.read().split("\n\n")
 
 
 # sorting the data
-pattern = "[0-9]+"
-seeds = [int(i) for i in re.findall(pattern, data[0])]
-sections = [[i for i in line.splitlines() if re.findall(pattern, i)] for line in data[1:]]
+seeds = [int(i) for i in data[0].split()[1:]]
+stages = [
+    [[int(i) for i in l.split()] for l in line.splitlines()[1:]] for line in data[1:]
+]
+""" seeds = {seed
+    for indx, i in enumerate(seeds[::2])
+    for seed in range(i,i+seeds[2*indx+1])
+    } """
+seeds = [(i, i + seeds[2 * indx + 1]) for indx, i in enumerate(seeds[::2])]
 
-sranges = [(i,i+seeds[2*indx+1]) for indx, i in enumerate(seeds[::2])]
-ranges = set()
-for start, end in sranges:
-    ranges.update([*range(start,end)])
-
-
-# part2
-p2_solution = max(ranges)
-
-for seed in ranges:
-    for category in sections:
-        for nums in category:
-            drs, srs, rlen = [int(i) for i in nums.split()] #destination range start//source range start//range length
-            if srs <= seed < srs + rlen:
-                seed += drs - srs
+for way in stages:
+    new = []
+    while len(seeds) > 0:
+        start, end = seeds.pop()
+        for drs, srs, rlen in way:
+            ostart = max(start, srs)
+            oend = min(end, srs + rlen)
+            if ostart < oend:
+                new.append((ostart + drs - srs, oend + drs - srs))
+                if ostart > start:
+                    seeds.append((start, ostart))
+                if end > oend:
+                    seeds.append((oend, end))
                 break
+        else:
+            new.append((ostart, oend))
+    seeds = new
 
-    if seed < p2_solution:
-        p2_solution = seed
-
-print(f"Part 2: {p2_solution}")
+p2_solution = min(seeds)
+print(f"Part 2: {p2_solution[0]}")

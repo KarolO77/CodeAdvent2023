@@ -8,8 +8,6 @@ p1_solution = 0
 for history in data:
     lasts = []
     while not all([True if not i else False for i in history]): 
-        # could've gone also with history[-1] != 0 || 
-        # not sum(history), but those are not that accurate i think
         new = []
         for indx, num in enumerate(history[1:]):
             new.append(num - history[indx])
